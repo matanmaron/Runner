@@ -5,18 +5,13 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
-    [SerializeField] private GameObject gameOverPanelPrefab;
+    [SerializeField] private GameObject gameOverPanelPrefab = null;
     
     
-    private GameObject gameOverPanel;
+    private GameObject gameOverPanel = null;
 
-    private Text timeText;
-    private GameObject startLabel;
-
-    
-    //[SerializeField] private Text yourScoreText;
-    //[SerializeField] private Text topScoreText;
-
+    private Text timeText = null;
+    private GameObject startLabel = null;
     
     // Start is called before the first frame update
     void Start()
@@ -42,6 +37,8 @@ public class UI_Manager : MonoBehaviour
 
         yourScoreText.GetComponent<Text>().text = yourScore.ToString("F2");
         topScoreText.GetComponent<Text>().text = "Top Score: " + topScore.ToString("F2");
+
+        //timeText.text = "00";
     }
 
     public void HideGameOverPanel()
