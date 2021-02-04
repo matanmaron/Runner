@@ -5,63 +5,59 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    
-    [Header ("Prefabs and Positions")]
-    [SerializeField] private GameObject playerPrefab = null;
-    [SerializeField] private GameObject environmentPrefab = null;
-    [SerializeField] private GameObject uiManagerPrefab = null;
-
+    [Header("Game parameters")]
+    [Space(10)]
+    [Header ("Prefabs")]
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private Transform playerInitPos;
+    [SerializeField] private GameObject environmentPrefab;
     //[SerializeField] private GameObject staticObjectsPrefab;
 
-    [SerializeField] private Transform playerInitPos = null;
-    [SerializeField] public Transform platformsSpawnPoint = null;
-    
-    public GameObject BackgroundObject = null;
-    private UI_Manager uiManager = null;
+    public GameObject BackgroundObject;
+    private UI_Manager uiManager;
+    [SerializeField] private GameObject uiManagerPrefab;
     
     
     [Header("Player parameters")]
-    public float playerInitSpeed = 0.15f;
-    public float playerSpeedIncremetPerSec = 0.002f;
-    public float playerJumpForce = 5000f;
-    public float playerMaxJumpDuration = 0.4f;
+    public float playerInitSpeed;
+    public float playerSpeedIncremetPerSec;
+    public float playerJumpForce;
+    public float playerMaxJumpDuration;
     
 
    
     [Header("Environment parameters")]
-    public float platformMinXDistance = 1f;
-    public float platformMaxXDistance = 4f;
-    public float platformMaxYDistance = 2.5f;
-    public float platformMinYPosition = -4f;
-    public float platformMaxYPosition = 2.5f;
-    public float platformMinLength = 0.4f;
-    public float platformMaxLength = 1.5f;
-    public float regularPlatformChance = 50f;
-    public float greenPlatformChance = 20f;
-    public float redPlatformChance = 10f;
-    public float blackPlatformChance = 10f;
-    public float greenPlatformJumpMultiplier = 1.5f;
-    public float redPlatformJumpMultiplier = 0.5f;
-    public float blackPlatformTimeDuration = 2f;
+    public float platformMinXDistance;
+    public float platformMaxXDistance;
+    public float platformMaxYDistance;
+    public float platformMinYPosition;
+    public float platformMaxYPosition;
+    public float platformMinLength;
+    public float platformMaxLength;
+    public float regularPlatformChance;
+    public float greenPlatformChance;
+    public float redPlatformChance;
+    public float blackPlatformChance;
+    public float greenPlatformJumpMultiplier;
+    public float redPlatformJumpMultiplier;
+    public float blackPlatformTimeDuration;
     
     [Header("Background parameters")]
-    public float backgroundSpeed = 0.03f;
+    public float backgroundSpeed;
     
     //score
     private int platformsJumped = 0;
+    private float timePassed;
 
-    [Header("keeping track")]
     [SerializeField] private float topScore = 0f;
-    [SerializeField] private float timePassed = 0;
 
-    
-    [SerializeField] private EnvironmentController envController = null;
-    [SerializeField] private Player_Controller player = null;
-    
-
-    //[SerializeField] private Text platformsText = null;
-    //[SerializeField] private Text timeText = null;
     [HideInInspector] public List<float> platformTypesProbs = new List<float>();
+    [SerializeField] private EnvironmentController envController;
+    [SerializeField] private Player_Controller player;
+    [SerializeField] public Transform platformsSpawnPoint;
+
+    //[SerializeField] private Text platformsText;
+    [SerializeField] private Text timeText;
     
     private void Awake()
     {
@@ -101,12 +97,13 @@ public class GameManager : MonoBehaviour
             uiManager.HideStartLabel();
         }
 
-        KeepTimeScore();
+        //KeepTimeScore();
         
     }
 
     private void KeepTimeScore()
     {
+        Debug.Log("1");
         if (envController.isMoving)
         {
             timePassed += Time.deltaTime;
@@ -139,16 +136,7 @@ public class GameManager : MonoBehaviour
         {
             topScore = timePassed;
         }
-        
-        if (envController != null)
-        {
-            Destroy(envController.gameObject);
-        }
-        if (player != null)
-        {
-            Destroy(player.gameObject);
-        }
-        
+
         uiManager.DisplayGameOverPanel(timePassed, topScore);
 
         ResetScene();
@@ -160,13 +148,33 @@ public class GameManager : MonoBehaviour
         platformsJumped = 0;
         timePassed = 0;
         
-
-        var env = Instantiate(environmentPrefab, Vector3.zero, Quaternion.identity);
+        //platformsText.text = "00";
+        timeText.text = "00";
+        
+        if (envController != null)
+        {
+            Destroy(envController.gameObject);
+        }
+        
+        if (player != null)
+        {
+            Destroy(player.gameObject);
+        }
+        
+        if (envController == null)
+        {
+        var env = Instantiate(environmentPrefab, Vector2.zero, Quaternion.identity);
         envController = env.GetComponent<EnvironmentController>();
+        //envController.backgroundObject = BackgroundObject;
+        }
 
+        if (player == null)
+        {
         var plyr = Instantiate(playerPrefab, playerInitPos.position, Quaternion.identity);
         player = plyr.GetComponent<Player_Controller>();
+        }
         
+        LoadPlayerAndEnvironment();
 
     }
 }
