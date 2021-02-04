@@ -743,7 +743,7 @@ MonoBehaviour:
   BackgroundObject: {fileID: 0}
   playerInitSpeed: 0.15
   playerSpeedIncremetPerSec: -0.002
-  playerJumpForce: 2500
+  playerJumpForce: 8
   playerMaxJumpDuration: 0.4
   platformMinXDistance: 1
   platformMaxXDistance: 4

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player_Controller : MonoBehaviour
 {
+    //private int jumpCount = 0;
+    
     private GameManager _gm;
 
     private Animator _anim;
@@ -42,40 +44,45 @@ public class Player_Controller : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkGroundedRadius, groundLayer);
         
-        Jump();
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            jumpFoceMultiplier = _gm.greenPlatformJumpMultiplier;
-        }if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            jumpFoceMultiplier = _gm.redPlatformJumpMultiplier;
-        }if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            ResetJumpMultiplier();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            StartCoroutine(envController.BlackenPlatforms());
-
-        }
+        GetJumpPromt();
 
     }
     
-    private void Jump()
+    private void GetJumpPromt()
     {
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
+            //jumpCount++;
             _anim.SetTrigger("Jump");
-            _rb.velocity = Vector2.up * _gm.playerJumpForce * jumpFoceMultiplier * Time.deltaTime;
             isJumping = true;
             jumpTimeCounter = JumpMaxDuration;
-            
         }
 
         if (Input.GetButton("Jump") && jumpTimeCounter>0 && isJumping)
         {
-            _rb.velocity = Vector2.up * _gm.playerJumpForce * jumpFoceMultiplier * Time.deltaTime;
+            
+        }
+    }
+    private void FixedUpdate() {
+        if (isJumping)
+        {
+            JumpPhysics();
+        }
+    }
+
+    private void JumpPhysics()
+    {
+        //if (isGrounded && Input.GetButtonDown("Jump"))
+        //{
+           
+            _rb.velocity = Vector2.up * _gm.playerJumpForce * jumpFoceMultiplier;
+            
+            
+        //}
+
+        if (Input.GetButton("Jump") && jumpTimeCounter>0 && isJumping)
+        {
+            _rb.velocity = Vector2.up * _gm.playerJumpForce * jumpFoceMultiplier;
             jumpTimeCounter -= Time.deltaTime;
         }
         else
