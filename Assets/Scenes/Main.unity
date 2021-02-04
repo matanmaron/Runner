@@ -747,9 +747,9 @@ MonoBehaviour:
   playerMaxJumpDuration: 0.4
   platformMinXDistance: 1
   platformMaxXDistance: 4
-  platformMaxYDistance: 2.5
+  platformMaxYDistance: 1.75
   platformMinYPosition: -4
-  platformMaxYPosition: 2.5
+  platformMaxYPosition: 2
   platformMinLength: 0.4
   platformMaxLength: 1.5
   regularPlatformChance: 50
