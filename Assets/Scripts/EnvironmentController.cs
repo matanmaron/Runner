@@ -6,8 +6,6 @@ public class EnvironmentController : MonoBehaviour
 {
     [SerializeField] private float playerSpeed;
     
-    private GameManager _gm;
-
     [SerializeField] public bool isMoving;
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] public Sprite regularPlatformSprite;
@@ -27,12 +25,11 @@ public class EnvironmentController : MonoBehaviour
 
     void Start()
     {
-        _gm = FindObjectOfType<GameManager>();
         isMoving = false;
 
-        playerSpeed = _gm.playerInitSpeed;
+        playerSpeed = GameManager.Instance.playerInitSpeed;
 
-        platformsSpawnPoint = _gm.platformsSpawnPoint;
+        platformsSpawnPoint = GameManager.Instance.platformsSpawnPoint;
         
         StartCoroutine("IncreaseSPeed");
 
@@ -58,8 +55,8 @@ public class EnvironmentController : MonoBehaviour
     {
         
         transform.Translate(Vector3.left * playerSpeed);
-        //backgroundObject.transform.Translate(Vector3.left * _gm.backgroundSpeed);
-        _gm.BackgroundObject.transform.Translate(Vector3.left * _gm.backgroundSpeed);
+        //backgroundObject.transform.Translate(Vector3.left * GameManager.Instance.backgroundSpeed);
+        GameManager.Instance.BackgroundObject.transform.Translate(Vector3.left * GameManager.Instance.backgroundSpeed);
 
     }
 
@@ -79,7 +76,7 @@ public class EnvironmentController : MonoBehaviour
         SetPlatformType();
         
         // random the nee platform's length (x)
-        var newPlatformLength = Random.Range(_gm.platformMinLength, _gm.platformMaxLength);
+        var newPlatformLength = Random.Range(GameManager.Instance.platformMinLength, GameManager.Instance.platformMaxLength);
         
         // new platform Height (y) remains unchanged.
         var newPlatformHeight = newPlatform.GetComponent<SpriteRenderer>().size.y;
@@ -95,23 +92,23 @@ public class EnvironmentController : MonoBehaviour
         float yPosMax;
 
         // Y Distance
-        if (lastPlatform.transform.position.y+_gm.platformMaxYDistance > _gm.platformMaxYPosition) //if last platform's position + the desired distance exceeds the available space.
+        if (lastPlatform.transform.position.y+GameManager.Instance.platformMaxYDistance > GameManager.Instance.platformMaxYPosition) //if last platform's position + the desired distance exceeds the available space.
             {
-                yPosMax = _gm.platformMaxYPosition;
+                yPosMax = GameManager.Instance.platformMaxYPosition;
             }
         else
             {
-                yPosMax = lastPlatform.transform.position.y + 1 + _gm.platformMaxYDistance;
+                yPosMax = lastPlatform.transform.position.y + 1 + GameManager.Instance.platformMaxYDistance;
             }
 
-        yPosMin = _gm.platformMinYPosition; // bottom of the screen
+        yPosMin = GameManager.Instance.platformMinYPosition; // bottom of the screen
         
         var newYPos = Random.Range(yPosMin, yPosMax);
 
 
         // X Distance
         // distance is a random between min and max in GameManager 
-        var xDistance = Random.Range(_gm.platformMinXDistance, _gm.platformMaxXDistance);
+        var xDistance = Random.Range(GameManager.Instance.platformMinXDistance, GameManager.Instance.platformMaxXDistance);
 
 
         // new platform X position is the rightmost x of the last platform + half the length of the new platform + the random distance
@@ -153,25 +150,25 @@ public class EnvironmentController : MonoBehaviour
     {
         float totalProb = 0f;
 
-        foreach (float elem in _gm.platformTypesProbs)
+        foreach (float elem in GameManager.Instance.platformTypesProbs)
         {
             totalProb += elem;
         }
 
         float randomPoint = Random.value * totalProb;
 
-        for (int i=0; i < _gm.platformTypesProbs.Count ; i++)
+        for (int i=0; i < GameManager.Instance.platformTypesProbs.Count ; i++)
         {
-            if (randomPoint < _gm.platformTypesProbs[i])
+            if (randomPoint < GameManager.Instance.platformTypesProbs[i])
             {
                 return i;
             }
             else
             {
-                randomPoint -= _gm.platformTypesProbs[i];
+                randomPoint -= GameManager.Instance.platformTypesProbs[i];
             }
         }
-        return _gm.platformTypesProbs.Count -1;
+        return GameManager.Instance.platformTypesProbs.Count -1;
     }
 
 
@@ -182,7 +179,7 @@ public class EnvironmentController : MonoBehaviour
                 platform.GetComponent<SpriteRenderer>().sprite = blackPlatformSprite;
             }
 
-        yield return new WaitForSeconds(_gm.blackPlatformTimeDuration);
+        yield return new WaitForSeconds(GameManager.Instance.blackPlatformTimeDuration);
 
         foreach (Platform platform in platforms)
             {
@@ -210,7 +207,7 @@ public class EnvironmentController : MonoBehaviour
         while (isMoving)
         {
             yield return new WaitForSeconds(1f);
-            playerSpeed += _gm.playerSpeedIncremetPerSec;
+            playerSpeed += GameManager.Instance.playerSpeedIncremetPerSec;
         }
     }
 }

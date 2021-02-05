@@ -5,8 +5,6 @@ using UnityEngine;
 public class BackgroundLoop : MonoBehaviour
 {
     private EnvironmentController envController;
-    private GameManager _gm;
-    
     [SerializeField] private Sprite[] backgroundSprites;
     
     [SerializeField] private List<GameObject> backgroundObjects = new List<GameObject>();
@@ -22,7 +20,6 @@ public class BackgroundLoop : MonoBehaviour
     private void Awake() {
         mainCamera = GetComponent<Camera>();
         envController = FindObjectOfType<EnvironmentController>();
-        _gm = FindObjectOfType<GameManager>();
     }
     
     void Start()
@@ -102,7 +99,7 @@ public class BackgroundLoop : MonoBehaviour
             backgroundObjects.Add(backgroundLevel);
         }
 
-        _gm.BackgroundObject = backgroundObj;
+        GameManager.Instance.BackgroundObject = backgroundObj;
         //envController.backgroundObject = backgroundObj;
     }
 

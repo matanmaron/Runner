@@ -6,8 +6,6 @@ public class Player_Controller : MonoBehaviour
 {
     //private int jumpCount = 0;
     
-    private GameManager _gm;
-
     private Animator _anim;
 
     [SerializeField] private GameObject lastPlatformHit;
@@ -27,7 +25,6 @@ public class Player_Controller : MonoBehaviour
 
     protected virtual void Awake()
     {
-        _gm = FindObjectOfType<GameManager>();
         _rb = GetComponent<Rigidbody2D>();
         _anim = GetComponentInChildren<Animator>();
     }
@@ -75,14 +72,14 @@ public class Player_Controller : MonoBehaviour
         //if (isGrounded && Input.GetButtonDown("Jump"))
         //{
            
-            _rb.velocity = Vector2.up * _gm.playerJumpForce * jumpFoceMultiplier;
+            _rb.velocity = Vector2.up * GameManager.Instance.playerJumpForce * jumpFoceMultiplier;
             
             
         //}
 
         if (Input.GetButton("Jump") && jumpTimeCounter>0 && isJumping)
         {
-            _rb.velocity = Vector2.up * _gm.playerJumpForce * jumpFoceMultiplier;
+            _rb.velocity = Vector2.up * GameManager.Instance.playerJumpForce * jumpFoceMultiplier;
             jumpTimeCounter -= Time.deltaTime;
         }
         else
@@ -120,11 +117,11 @@ public class Player_Controller : MonoBehaviour
 
             if (platform.type == Platform.platformType.Green)
             {
-                jumpFoceMultiplier = _gm.greenPlatformJumpMultiplier;
+                jumpFoceMultiplier = GameManager.Instance.greenPlatformJumpMultiplier;
             }
             else if (platform.type == Platform.platformType.Red)
             {
-                jumpFoceMultiplier = _gm.redPlatformJumpMultiplier;
+                jumpFoceMultiplier = GameManager.Instance.redPlatformJumpMultiplier;
             }
             else if (platform.type == Platform.platformType.Black)
             {
@@ -133,7 +130,7 @@ public class Player_Controller : MonoBehaviour
 
             if (other.gameObject != lastPlatformHit)
             {
-                _gm.addPlatformToScore();
+                GameManager.Instance.addPlatformToScore();
                 lastPlatformHit = other.gameObject;
             }
         }
@@ -145,7 +142,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (other.gameObject.CompareTag("PlayerDeath"))
         {
-            _gm.GameOver();
+            GameManager.Instance.GameOver();
         }
     }
     

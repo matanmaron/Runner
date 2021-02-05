@@ -62,15 +62,24 @@ public class GameManager : MonoBehaviour
     //[SerializeField] private Text platformsText = null;
     //[SerializeField] private Text timeText = null;
     [HideInInspector] public List<float> platformTypesProbs = new List<float>();
-    
+
+    public static GameManager Instance { get; private set; } //singleton
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
         LoadPlatformProbs();
         //LoadPlayerAndEnvironment();
         ResetScene();
 
     }
-    
+
     private void Start() {
         
         CreateInitialObjects();
