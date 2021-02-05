@@ -24,7 +24,9 @@ public class Player_Controller : MonoBehaviour
     private bool isJumping = false;
     [SerializeField] private float jumpFoceMultiplier = 1f;
 
-    public static event Action OnPlayerJump; //observer
+    //observers
+    public static event Action OnPlayerJump; 
+    public static event Action OnPlayerDead;
 
     protected virtual void Awake()
     {
@@ -147,6 +149,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (other.gameObject.CompareTag("PlayerDeath"))
         {
+            OnPlayerDead?.Invoke();
             GameManager.Instance.GameOver();
         }
     }
