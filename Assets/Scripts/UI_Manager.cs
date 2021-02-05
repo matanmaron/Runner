@@ -5,60 +5,36 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
-    [SerializeField] private GameObject gameOverPanelPrefab = null;
-    
-    
-    private GameObject gameOverPanel = null;
-
-    private Text timeText = null;
-    private GameObject startLabel = null;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        timeText = FindObjectOfType<Canvas>().transform.Find("TimeText").GetComponent<Text>();
-        startLabel = FindObjectOfType<Canvas>().transform.Find("StartLabel").gameObject;
-        //timeText = GameObject.FindGameObjectWithTag("TimeText").GetComponent<Text>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private GameObject GameOverPanelPrefab = null;
+    [SerializeField] private Text TimeText = null;
+    [SerializeField] private GameObject StartLabel = null;
+    [SerializeField] private Transform Canvas = null;
+    private GameObject GameOverPanel = null;
 
     public void DisplayGameOverPanel(float yourScore, float topScore)
     {
-        gameOverPanel = Instantiate(gameOverPanelPrefab, Vector3.zero, Quaternion.identity);
-        gameOverPanel.transform.SetParent(FindObjectOfType<Canvas>().transform, false);
-
-        var yourScoreText = gameOverPanel.transform.Find("YourScoreText");
-        var topScoreText = gameOverPanel.transform.Find("TopScoreText");
-
-        yourScoreText.GetComponent<Text>().text = yourScore.ToString("F2");
-        topScoreText.GetComponent<Text>().text = "Top Score: " + topScore.ToString("F2");
-
-        //timeText.text = "00";
+        GameOverPanel = Instantiate(GameOverPanelPrefab, Canvas);
+        GameOverPanel.GetComponent<GameOver>().SetData(yourScore, topScore);
     }
 
     public void HideGameOverPanel()
     {
-        if (gameOverPanel != null)
+        if (GameOverPanel != null)
         {
-            Destroy(gameOverPanel);
+            Destroy(GameOverPanel);
         }    
     }
 
-    public void UpdateTime(float currentTIme)
+    public void UpdateTime(float currentTime)
     {
-        timeText.text = "  Time: " + currentTIme.ToString("F2");
+        TimeText.text = "  Time: " + currentTime.ToString("F2");
     }
 
     public void HideStartLabel()
     {
-        if (startLabel != null)
+        if (StartLabel != null)
         {
-            Destroy(startLabel);
+            Destroy(StartLabel);
         }
     }
 }
