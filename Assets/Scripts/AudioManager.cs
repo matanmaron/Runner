@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private AudioSource _audioSourceJump = null;
+    [SerializeField] private AudioSource _audioSource2 = null;
+    [SerializeField] private AudioSource _audioSource3 = null;
+    [SerializeField] private AudioSource _audioSource4 = null;
+    [SerializeField] private AudioSource _musicSource = null;
 
-    // Update is called once per frame
-    void Update()
+    private void PlayJumpAudio() => _audioSourceJump.Play();
+
+
+    private void OnEnable()
     {
-        
+        Player_Controller.OnPlayerJump += PlayJumpAudio;
+    }
+    private void OnDisable()
+    {
+        Player_Controller.OnPlayerJump -= PlayJumpAudio;
     }
 }

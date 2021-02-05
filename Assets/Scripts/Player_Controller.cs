@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,8 @@ public class Player_Controller : MonoBehaviour
 
     private bool isJumping = false;
     [SerializeField] private float jumpFoceMultiplier = 1f;
+
+    public static event Action OnPlayerJump; //observer
 
     protected virtual void Awake()
     {
@@ -51,6 +54,7 @@ public class Player_Controller : MonoBehaviour
         {
             //jumpCount++;
             _anim.SetTrigger("Jump");
+            OnPlayerJump?.Invoke();
             isJumping = true;
             jumpTimeCounter = JumpMaxDuration;
         }
@@ -69,6 +73,7 @@ public class Player_Controller : MonoBehaviour
 
     private void JumpPhysics()
     {
+
         //if (isGrounded && Input.GetButtonDown("Jump"))
         //{
            
