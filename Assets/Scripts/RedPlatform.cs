@@ -9,7 +9,7 @@ public class RedPlatform : Platform
     {
         base.Awake();
         setColor();
-        type = platformType.Red;
+        type = PlatformType.Red;
 
 
     }

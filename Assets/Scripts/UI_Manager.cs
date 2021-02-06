@@ -11,7 +11,7 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private Transform Canvas = null;
     private GameObject GameOverPanel = null;
 
-    public void DisplayGameOverPanel(float yourScore, float topScore)
+    public void ShowGameOverPanel(float yourScore, float topScore)
     {
         GameOverPanel = Instantiate(GameOverPanelPrefab, Canvas);
         GameOverPanel.GetComponent<GameOver>().SetData(yourScore, topScore);
@@ -32,9 +32,11 @@ public class UI_Manager : MonoBehaviour
 
     public void HideStartLabel()
     {
-        if (StartLabel != null)
-        {
-            Destroy(StartLabel);
-        }
+        StartLabel.gameObject.SetActive(false);
+    }
+
+    public void ShowStartLabel()
+    {
+        StartLabel.gameObject.SetActive(true);
     }
 }

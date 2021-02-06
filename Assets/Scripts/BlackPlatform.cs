@@ -9,7 +9,7 @@ public class BlackPlatform : Platform
     {
         base.Awake();
         setColor();
-        type = platformType.Black;
+        type = PlatformType.Black;
 
     }
 

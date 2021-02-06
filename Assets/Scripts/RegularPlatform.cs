@@ -9,7 +9,7 @@ public class RegularPlatform : Platform
     {
         base.Awake();
         setColor();
-        type = platformType.Regular;
+        type = PlatformType.Regular;
 
     }
     

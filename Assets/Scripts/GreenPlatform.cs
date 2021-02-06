@@ -9,7 +9,7 @@ public class GreenPlatform : Platform
     {
         base.Awake();
         setColor();
-        type = platformType.Green;
+        type = PlatformType.Green;
 
     }
     

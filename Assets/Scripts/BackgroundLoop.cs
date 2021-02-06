@@ -14,8 +14,6 @@ public class BackgroundLoop : MonoBehaviour
 
     [SerializeField] private string backgroundSortingLayerName;
 
-    //public GameObject backgroundObject;
-
 
     private void Awake() {
         mainCamera = GetComponent<Camera>();
@@ -75,11 +73,6 @@ public class BackgroundLoop : MonoBehaviour
                 firstChild.transform.SetAsLastSibling();
                 firstChild.transform.position = new Vector3(lastChild.transform.position.x + halfObjectWidth * 2, lastChild.transform.position.y, lastChild.transform.position.z);
             }
-            /*else if(transform.position.x - screenBounds.x < firstChild.transform.position.x - halfObjectWidth)
-            {
-                lastChild.transform.SetAsFirstSibling();
-                lastChild.transform.position = new Vector3(firstChild.transform.position.x - halfObjectWidth * 2 , firstChild.transform.position.y, firstChild.transform.position.z);
-            }*/
         }
     }
     
@@ -100,7 +93,6 @@ public class BackgroundLoop : MonoBehaviour
         }
 
         GameManager.Instance.BackgroundObject = backgroundObj;
-        //envController.backgroundObject = backgroundObj;
     }
 
 }

@@ -8,9 +8,8 @@ public class FirstPlatform : Platform
     protected override void Awake() 
     {
         base.Awake();
-        //GetComponent<MeshRenderer>().material = envControler.greenPlatformMaterial;
         GetComponent<SpriteRenderer>().sprite = envController.regularPlatformSprite;
-        type = platformType.Regular;
+        type = PlatformType.Regular;
 
 
     }

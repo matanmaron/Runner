@@ -50,6 +50,15 @@ public class GameManager : MonoBehaviour
     
     [HideInInspector] public List<float> platformTypesProbs = new List<float>();
 
+    public enum GameState
+    {
+        ReadyToStart,
+        GameOver,
+        Running
+    }
+
+    public GameState gameState = GameState.ReadyToStart;
+
     public static GameManager Instance { get; private set; } //singleton
     private void Awake()
     {
@@ -62,7 +71,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         LoadPlatformProbs();
-        ResetScene();
+        ResetGame();
     }
 
     private void LoadPlatformProbs()
@@ -75,20 +84,35 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+        /*
         if (Input.GetKeyDown(KeyCode.Return))
         {
             player.StartRunning();
             envController.StartMoving();
             UIManager.HideGameOverPanel();
             UIManager.HideStartLabel();
-        }
+        }*/
 
-        KeepTimeScore();
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (gameState == GameState.ReadyToStart)
+            {
+                StartGame();
+            }
+            else if (gameState == GameState.GameOver)
+            {
+                ResetGame();
+            }
+        }
+        
+        if (envController != null)
+        {
+            KeepTime();
+        }
         
     }
 
-    private void KeepTimeScore()
+    private void KeepTime()
     {
         if (envController.isMoving)
         {
@@ -102,35 +126,54 @@ public class GameManager : MonoBehaviour
         platformsJumped++;
     }
 
-    public void GameOver()
+    private void StartGame()
     {
-        if (timePassed > topScore)
-        {
-            topScore = timePassed;
-        }
+        gameState = GameState.Running;
+        
+        UIManager.HideStartLabel();
+        envController.StartMoving();
+        player.StartRunning();
+    }
+    
+    public void ResetGame()
+    {
+        gameState = GameState.ReadyToStart;
+        
+        UIManager.HideGameOverPanel();
+        UIManager.ShowStartLabel();
+
+        platformsJumped = 0;
+        timePassed = 0;
+
         if (envController != null)
         {
             Destroy(envController.gameObject);
         }
-        if (player != null)
-        {
-            Destroy(player.gameObject);
-        }
-        UIManager.DisplayGameOverPanel(timePassed, topScore);
-        ResetScene();
-    }
 
-    private void ResetScene()
-    {
-        platformsJumped = 0;
-        timePassed = 0;
-        
         var env = Instantiate(environmentPrefab, Vector3.zero, Quaternion.identity);
         envController = env.GetComponent<EnvironmentController>();
 
         var plyr = Instantiate(playerPrefab, playerInitPos.position, Quaternion.identity);
         player = plyr.GetComponent<Player_Controller>();
         vfxManager.PlayerSpawnVFX(playerInitPos.position);
-        
     }
+
+    public void GameOver()
+    {
+        gameState = GameState.GameOver;
+
+        if (timePassed > topScore)
+        {
+            topScore = timePassed;
+        }
+
+        envController.StopMoving();
+
+        if (player != null)
+        {
+            Destroy(player.gameObject);
+        }
+
+        UIManager.ShowGameOverPanel(timePassed, topScore);
+        }
 }

@@ -118,15 +118,15 @@ public class Player_Controller : MonoBehaviour
             
             Platform platform = other.gameObject.GetComponent<Platform>();
 
-            if (platform.type == Platform.platformType.Green)
+            if (platform.type == Platform.PlatformType.Green)
             {
                 jumpFoceMultiplier = GameManager.Instance.greenPlatformJumpMultiplier;
             }
-            else if (platform.type == Platform.platformType.Red)
+            else if (platform.type == Platform.PlatformType.Red)
             {
                 jumpFoceMultiplier = GameManager.Instance.redPlatformJumpMultiplier;
             }
-            else if (platform.type == Platform.platformType.Black)
+            else if (platform.type == Platform.PlatformType.Black)
             {
                 StartCoroutine(envController.BlackenPlatforms());
             }

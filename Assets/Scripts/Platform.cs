@@ -7,8 +7,14 @@ public class Platform : MonoBehaviour
 {
 
     [HideInInspector] public EnvironmentController envController;
-    [HideInInspector] public enum platformType {Regular, Green, Red, Black}
-    [HideInInspector] public platformType type;
+    [HideInInspector] public enum PlatformType 
+    {
+        Regular, 
+        Green, 
+        Red, 
+        Black
+    }
+    [HideInInspector] public PlatformType type;
 
     [SerializeField] private bool isLast = true;
     protected virtual void Awake()
