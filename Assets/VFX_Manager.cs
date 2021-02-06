@@ -5,7 +5,7 @@ using UnityEngine;
 public class VFX_Manager : MonoBehaviour
 {
     [SerializeField] private ParticleSystem playerSpawnEffectPrefab = null;
-    erializeField] private ParticleSystem playerLandEffectPrefab = null;
+    //[SerializeField] private ParticleSystem playerLandEffectPrefab = null;
     //private Camera camera;
 
     
