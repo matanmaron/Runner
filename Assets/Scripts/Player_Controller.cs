@@ -113,7 +113,7 @@ public class Player_Controller : MonoBehaviour
         if (other.gameObject.CompareTag("Platform") && isGrounded)
         {
             _anim.SetTrigger("Land");
-            vfxManager.PlayerLandEffect(feetPos.position);
+            //vfxManager.PlayerLandEffect(feetPos.position);
             
             ResetJumpMultiplier();
             
