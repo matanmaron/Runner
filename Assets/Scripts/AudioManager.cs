@@ -11,12 +11,12 @@ public class AudioManager : MonoBehaviour
     private void PlayJumpAudio() => _audioSourceJump.Play();
     private void PlayJumpDead() => _audioSourceDead.Play();
 
-
     private void OnEnable()
     {
         Player_Controller.OnPlayerJump += PlayJumpAudio;
         Player_Controller.OnPlayerDead += PlayJumpDead;
     }
+
     private void OnDisable()
     {
         Player_Controller.OnPlayerJump -= PlayJumpAudio;

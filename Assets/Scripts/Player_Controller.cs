@@ -96,7 +96,6 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    
     public void StartRunning()
     {
         
@@ -139,8 +138,6 @@ public class Player_Controller : MonoBehaviour
             }
         }
     }
-
-    
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
