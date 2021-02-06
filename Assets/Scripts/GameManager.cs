@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform playerInitPos = null;
     [SerializeField] public Transform platformsSpawnPoint = null;
     [SerializeField] UI_Manager UIManager = null;
+    [SerializeField] VFX_Manager vfxManager = null;
     
-    public GameObject BackgroundObject = null;
+    [HideInInspector] public GameObject BackgroundObject = null;
     
     [Header("Player parameters")]
     public float playerInitSpeed = 0.15f;
@@ -129,5 +130,7 @@ public class GameManager : MonoBehaviour
 
         var plyr = Instantiate(playerPrefab, playerInitPos.position, Quaternion.identity);
         player = plyr.GetComponent<Player_Controller>();
+        vfxManager.PlayerSpawnVFX(playerInitPos.position);
+        
     }
 }

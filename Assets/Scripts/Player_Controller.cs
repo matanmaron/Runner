@@ -8,6 +8,7 @@ public class Player_Controller : MonoBehaviour
     //private int jumpCount = 0;
     
     private Animator _anim;
+    private VFX_Manager vfxManager;
 
     [SerializeField] private GameObject lastPlatformHit;
     private Rigidbody2D _rb;
@@ -37,6 +38,7 @@ public class Player_Controller : MonoBehaviour
     private void Start() {
         envController = FindObjectOfType<EnvironmentController>();
         lastPlatformHit = FindObjectOfType<FirstPlatform>().gameObject;
+        vfxManager = FindObjectOfType<VFX_Manager>();
 
         
     }
@@ -76,14 +78,8 @@ public class Player_Controller : MonoBehaviour
     private void JumpPhysics()
     {
 
-        //if (isGrounded && Input.GetButtonDown("Jump"))
-        //{
-           
-            _rb.velocity = Vector2.up * GameManager.Instance.playerJumpForce * jumpFoceMultiplier;
+        _rb.velocity = Vector2.up * GameManager.Instance.playerJumpForce * jumpFoceMultiplier;
             
-            
-        //}
-
         if (Input.GetButton("Jump") && jumpTimeCounter>0 && isJumping)
         {
             _rb.velocity = Vector2.up * GameManager.Instance.playerJumpForce * jumpFoceMultiplier;
@@ -117,6 +113,7 @@ public class Player_Controller : MonoBehaviour
         if (other.gameObject.CompareTag("Platform") && isGrounded)
         {
             _anim.SetTrigger("Land");
+            vfxManager.PlayerLandEffect(feetPos.position);
             
             ResetJumpMultiplier();
             
