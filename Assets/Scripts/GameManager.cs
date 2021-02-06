@@ -84,15 +84,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            player.StartRunning();
-            envController.StartMoving();
-            UIManager.HideGameOverPanel();
-            UIManager.HideStartLabel();
-        }*/
-
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (gameState == GameState.ReadyToStart)
