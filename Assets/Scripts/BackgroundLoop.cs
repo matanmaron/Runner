@@ -4,38 +4,51 @@ using UnityEngine;
 
 public class BackgroundLoop : MonoBehaviour
 {
-    private EnvironmentController envController;
-    [SerializeField] private Sprite[] backgroundSprites;
-    
     [SerializeField] private List<GameObject> backgroundObjects = new List<GameObject>();
-
+    [SerializeField] float backgroundSpeed = 0.02f;
     private Camera mainCamera;
     private Vector2 screenBounds;
 
-    [SerializeField] private string backgroundSortingLayerName;
-
-
     private void Awake() {
         mainCamera = GetComponent<Camera>();
-        envController = FindObjectOfType<EnvironmentController>();
     }
     
     void Start()
     {
-        
+        EnvironmentController.OnMoveEnvironemt += OnMoveEnvironemt;
         screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
-        
-        CreateBackgroundObjects();
         
         foreach(GameObject obj in backgroundObjects)
         {
-            loadChildObjects(obj);
+            foreach (Transform item in obj.GetComponentInChildren<Transform>())
+            {
+                loadChildObjects(item.gameObject);
+            }
         }
     }
+
+    private void OnDestroy()
+    {
+        EnvironmentController.OnMoveEnvironemt -= OnMoveEnvironemt;
+    }
+
     private void LateUpdate() {
         foreach(GameObject obj in backgroundObjects)
         {
-            RepositionChildObjects(obj);
+            foreach (Transform item in obj.GetComponentInChildren<Transform>())
+            {
+                RepositionChildObjects(item.gameObject);
+            }
+        }
+    }
+
+    private void OnMoveEnvironemt()
+    {
+        float i = 0.00f;
+        foreach (GameObject obj in backgroundObjects)
+        {
+            obj.transform.Translate(Vector3.left * (backgroundSpeed + i));
+            i += 0.04f;
         }
     }
 
@@ -62,10 +75,10 @@ public class BackgroundLoop : MonoBehaviour
     {
         Transform[] children = obj.GetComponentsInChildren<Transform>();
 
-        if (children.Length>1)
+        if (children.Length > 1)
         {
             GameObject firstChild = children[1].gameObject;
-            GameObject lastChild = children[children.Length-1].gameObject;
+            GameObject lastChild = children[children.Length - 1].gameObject;
             float halfObjectWidth = lastChild.GetComponent<SpriteRenderer>().bounds.extents.x;
 
             if (transform.position.x + screenBounds.x > lastChild.transform.position.x + halfObjectWidth)
@@ -75,24 +88,4 @@ public class BackgroundLoop : MonoBehaviour
             }
         }
     }
-    
-    private void CreateBackgroundObjects()
-    {
-        var backgroundObj = new GameObject("Background");
-        backgroundObj.transform.position = Vector3.zero;
-
-        for (int i=0 ; i<backgroundSprites.Length ; i++)
-        {
-            var backgroundLevel = new GameObject("BG_level_" + i.ToString());
-            backgroundLevel.transform.SetParent(backgroundObj.transform);
-            SpriteRenderer sr = backgroundLevel.AddComponent<SpriteRenderer>();
-            sr.sortingLayerName = backgroundSortingLayerName;
-            sr.sortingOrder = i;
-            sr.sprite = backgroundSprites[i];
-            backgroundObjects.Add(backgroundLevel);
-        }
-
-        GameManager.Instance.BackgroundObject = backgroundObj;
-    }
-
 }

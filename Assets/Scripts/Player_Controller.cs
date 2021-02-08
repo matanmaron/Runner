@@ -48,6 +48,14 @@ public class Player_Controller : MonoBehaviour
     
     void Update()
     {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Dead();
+        }
+        if (transform.position.x < -15)
+        {
+            Dead();
+        }
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkGroundedRadius, groundLayer);
         
         GetJumpPromt();
@@ -145,9 +153,13 @@ public class Player_Controller : MonoBehaviour
     {
         if (other.gameObject.CompareTag("PlayerDeath"))
         {
-            OnPlayerDead?.Invoke();
-            GameManager.Instance.GameOver();
+            Dead();
         }
     }
-    
+
+    private static void Dead()
+    {
+        OnPlayerDead?.Invoke();
+        GameManager.Instance.GameOver();
+    }
 }

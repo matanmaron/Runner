@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -12,8 +13,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] public Transform platformsSpawnPoint = null;
     [SerializeField] UI_Manager UIManager = null;
     [SerializeField] VFX_Manager vfxManager = null;
-    
-    [HideInInspector] public GameObject BackgroundObject = null;
     
     [Header("Player parameters")]
     public float playerInitSpeed = 0.15f;
@@ -38,7 +37,6 @@ public class GameManager : MonoBehaviour
     public float blackPlatformTimeDuration = 2f;
     
     [Header("Background parameters")]
-    public float backgroundSpeed = 0.03f;
     private int platformsJumped = 0; //score
 
     [Header("keeping track")]
@@ -84,7 +82,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
+        if (Input.anyKey)
         {
             if (gameState == GameState.ReadyToStart)
             {

@@ -1,27 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnvironmentController : MonoBehaviour
 {
     [SerializeField] private float playerSpeed;
-    
     [SerializeField] public bool isMoving;
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] public Sprite regularPlatformSprite;
     [SerializeField] public Sprite blackPlatformSprite;
     [SerializeField] public Sprite redPlatformSprite;
     [SerializeField] public Sprite greenPlatformSprite;
-
     [SerializeField] public GameObject lastPlatform;
-    
     [SerializeField] private Transform platformsSpawnPoint;
-
     [SerializeField] private GameObject newPlatform;
-
     public List<Platform> platforms = new List<Platform>();
-    
     public GameObject backgroundObject;
+    public static event Action OnMoveEnvironemt;
 
     void Start()
     {
@@ -47,16 +44,13 @@ public class EnvironmentController : MonoBehaviour
     {
         if (isMoving)
         {
-            MoveEnvironemtn();
+            MoveEnvironemt();
         }
     }
-    private void MoveEnvironemtn()
+    private void MoveEnvironemt()
     {
-        
         transform.Translate(Vector3.left * playerSpeed);
-        //backgroundObject.transform.Translate(Vector3.left * GameManager.Instance.backgroundSpeed);
-        GameManager.Instance.BackgroundObject.transform.Translate(Vector3.left * GameManager.Instance.backgroundSpeed);
-
+        OnMoveEnvironemt?.Invoke();
     }
 
     public void StartMoving()
