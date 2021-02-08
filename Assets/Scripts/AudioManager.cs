@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
 
     private void OnEnable()
     {
+        _musicSource.Play();
         Player_Controller.OnPlayerJump += PlayJumpAudio;
         Player_Controller.OnPlayerDead += PlayJumpDead;
     }

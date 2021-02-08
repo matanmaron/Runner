@@ -29,6 +29,8 @@ public class Player_Controller : MonoBehaviour
     public static event Action OnPlayerJump; 
     public static event Action OnPlayerDead;
 
+    private const string JUMP = "Fire1";
+
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -54,7 +56,7 @@ public class Player_Controller : MonoBehaviour
     
     private void GetJumpPromt()
     {
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        if (isGrounded && Input.GetButtonDown(JUMP))
         {
             //jumpCount++;
             _anim.SetTrigger("Jump");
@@ -63,7 +65,7 @@ public class Player_Controller : MonoBehaviour
             jumpTimeCounter = JumpMaxDuration;
         }
 
-        if (Input.GetButton("Jump") && jumpTimeCounter>0 && isJumping)
+        if (Input.GetButton(JUMP) && jumpTimeCounter>0 && isJumping)
         {
             
         }
@@ -80,7 +82,7 @@ public class Player_Controller : MonoBehaviour
 
         _rb.velocity = Vector2.up * GameManager.Instance.playerJumpForce * jumpFoceMultiplier;
             
-        if (Input.GetButton("Jump") && jumpTimeCounter>0 && isJumping)
+        if (Input.GetButton(JUMP) && jumpTimeCounter>0 && isJumping)
         {
             _rb.velocity = Vector2.up * GameManager.Instance.playerJumpForce * jumpFoceMultiplier;
             jumpTimeCounter -= Time.deltaTime;
@@ -90,7 +92,7 @@ public class Player_Controller : MonoBehaviour
             isJumping = false;
         }
 
-        if (Input.GetButtonUp("Jump"))
+        if (Input.GetButtonUp(JUMP))
         {
             isJumping = false;
         }
