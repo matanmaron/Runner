@@ -28,6 +28,7 @@ public class Player_Controller : MonoBehaviour
     //observers
     public static event Action OnPlayerJump; 
     public static event Action OnPlayerDead;
+    public static event Action OnPlayerGrounded;
 
     private const string JUMP = "Fire1";
 
@@ -57,7 +58,6 @@ public class Player_Controller : MonoBehaviour
             Dead();
         }
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkGroundedRadius, groundLayer);
-        
         GetJumpPromt();
 
     }
@@ -66,16 +66,10 @@ public class Player_Controller : MonoBehaviour
     {
         if (isGrounded && Input.GetButtonDown(JUMP))
         {
-            //jumpCount++;
             _anim.SetTrigger("Jump");
             OnPlayerJump?.Invoke();
             isJumping = true;
             jumpTimeCounter = JumpMaxDuration;
-        }
-
-        if (Input.GetButton(JUMP) && jumpTimeCounter>0 && isJumping)
-        {
-            
         }
     }
     private void FixedUpdate() {
@@ -87,9 +81,7 @@ public class Player_Controller : MonoBehaviour
 
     private void JumpPhysics()
     {
-
         _rb.velocity = Vector2.up * GameManager.Instance.playerJumpForce * jumpFoceMultiplier;
-            
         if (Input.GetButton(JUMP) && jumpTimeCounter>0 && isJumping)
         {
             _rb.velocity = Vector2.up * GameManager.Instance.playerJumpForce * jumpFoceMultiplier;
@@ -99,7 +91,6 @@ public class Player_Controller : MonoBehaviour
         {
             isJumping = false;
         }
-
         if (Input.GetButtonUp(JUMP))
         {
             isJumping = false;
@@ -122,8 +113,8 @@ public class Player_Controller : MonoBehaviour
         if (other.gameObject.CompareTag("Platform") && isGrounded)
         {
             _anim.SetTrigger("Land");
-            //vfxManager.PlayerLandEffect(feetPos.position);
-            
+            OnPlayerGrounded?.Invoke();
+
             ResetJumpMultiplier();
             
             Platform platform = other.gameObject.GetComponent<Platform>();
