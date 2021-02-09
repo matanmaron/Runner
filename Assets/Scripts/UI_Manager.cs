@@ -14,20 +14,25 @@ public class UI_Manager : MonoBehaviour
 
     public void ShowGameOverPanel(float yourScore, float topScore)
     {
-        if (topScore > PlayerPrefs.GetFloat("topscore", 0))
-        {
+        if (yourScore > topScore)
+	    {
+            topScore = yourScore;
             ScoreText.text = $"Top Score: {topScore.ToString("F2")}";
-            PlayerPrefs.SetFloat("topscore", topScore);
-        }
+	    }
+#if !UNITY_WEBGL
+        PlayerPrefs.SetFloat("topscore", topScore);
+#endif
         GameOverPanel = Instantiate(GameOverPanelPrefab, Canvas);
         GameOverPanel.GetComponent<GameOver>().SetData(yourScore, topScore);
     }
 
     private void Start()
     {
+#if !UNITY_WEBGL
         var topScore = PlayerPrefs.GetFloat("topscore", 0);
         GameManager.Instance.SetTopScore(topScore);
         ScoreText.text = $"Top Score: {topScore.ToString("F2")}";
+#endif
     }
 
     public void HideGameOverPanel()
