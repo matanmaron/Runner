@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8509375211223039641}
   - component: {fileID: 8509375211223039640}
   m_Layer: 0
-  m_Name: Source3
+  m_Name: SourceHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 68c16c95df7c56b4dba09f38f0907a91, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -172,7 +172,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -557,5 +557,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioSourceJump: {fileID: 8509375212151433612}
   _audioSourceDead: {fileID: 8509375212297398518}
-  _audioSourceHit: {fileID: 0}
+  _audioSourceHit: {fileID: 8509375211223039640}
   _musicSource: {fileID: 8509375211983863376}

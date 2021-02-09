@@ -151,6 +151,11 @@ public class GameManager : MonoBehaviour
         vfxManager.PlayerSpawnVFX(playerInitPos.position);
     }
 
+    internal void SetTopScore(float topscore)
+    {
+        topScore = topscore;
+    }
+
     public void GameOver()
     {
         gameState = GameState.GameOver;
