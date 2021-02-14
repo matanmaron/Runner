@@ -69,7 +69,7 @@ public class Player_Controller : MonoBehaviour
             _anim.SetTrigger("Jump");
             OnPlayerJump?.Invoke();
             isJumping = true;
-            jumpTimeCounter = JumpMaxDuration;
+            jumpTimeCounter = GameManager.Instance.playerMaxJumpDuration;
         }
     }
     private void FixedUpdate() {

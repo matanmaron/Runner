@@ -584,7 +584,7 @@ MonoBehaviour:
   playerInitSpeed: 0.15
   playerSpeedIncremetPerSec: 0.003
   playerJumpForce: 8
-  playerMaxJumpDuration: 0.4
+  playerMaxJumpDuration: 0.35
   platformMinXDistance: 1
   platformMaxXDistance: 4
   platformMaxYDistance: 1.75
